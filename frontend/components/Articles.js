@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
 import PT from 'prop-types'
+import { updateArticle } from '../../backend/helpers'
 
 export default function Articles(props) {
   // ✨ where are my props? Destructure them here
@@ -8,7 +9,8 @@ export default function Articles(props) {
     articles, 
     getArticles, 
     deleteArticle, 
-    setCurrentArticleId 
+    setCurrentArticleId,
+    currentArticleId
   } = props
 
   // ✨ implement conditional logic: if no token exists
@@ -28,7 +30,7 @@ export default function Articles(props) {
     <div className="articles">
       <h2>Articles</h2>
       {
-        ![].length
+        !articles.length
           ? 'No articles yet'
           : articles.map(art => {
             return (
