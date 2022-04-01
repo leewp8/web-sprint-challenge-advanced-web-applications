@@ -81,6 +81,21 @@ export default function App() {
   }
 
   const postArticle = article => {
+    setMessage('')
+    setSpinnerOn(true)
+    axiosWithAuth().get(articlesUrl)
+      .then(res => {
+        console.log(res)
+        setArticles([...articles, res.data.article])
+        setMessage(res.data.message)
+      })
+      .catch(err => {
+        console.log(err)
+        setMessage(err?.response?.data?.message)
+      })
+      .finally(() => {
+        setSpinnerOn(false)
+      })
     // ✨ implement
     // The flow is very similar to the `getArticles` function.
     // You'll know what to do! Use log statements or breakpoints
@@ -123,6 +138,7 @@ export default function App() {
               getArticles={getArticles} 
               deleteArticle={deleteArticle} 
               setCurrentArticleId={setCurrentArticleId}
+              currentArticleId={currentArticleId}
               />
             </>
           } />
