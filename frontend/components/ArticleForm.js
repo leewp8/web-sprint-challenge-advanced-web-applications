@@ -23,10 +23,10 @@ export default function ArticleForm(props) {
 
   const onSubmit = evt => {
     evt.preventDefault()
-    onSubmit(values)
-    setValues(initialFormValues)
     postArticle(values)
-    updateArticle(values)
+    setValues(initialFormValues)
+    // updateArticle(values)
+
     // ✨ implement
     // We must submit a new post or update an existing one,
     // depending on the truthyness of the `currentArticle` prop.
@@ -35,7 +35,7 @@ export default function ArticleForm(props) {
   const isDisabled = () => {
     // ✨ implement
     // Make sure the inputs have some values
-    if(values.title.trim().length >= 1 && values.text.trim().length >= 1 && values.topic.length >= 1) {
+    if(values.title.trim().length >= 1 && values.text.trim().length >= 1 && values.topic.trim().length >= 1) {
       return false
     } else {
       return true
