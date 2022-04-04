@@ -100,23 +100,21 @@ export default function App() {
     // to inspect the response from the server.
   }
 
-  const updateArticle = ({ article_id, article }) => {
+  const updateArticle = ( article_id, article ) => {
     setMessage('')
     setSpinnerOn(true)
-    // const { article_id, ...changes } = article
+    console.log(article)
     axiosWithAuth().put(`${articlesUrl}/${article_id}`, article)
       .then(res => {
-        console.log(res)
-        // setArticles(articles.map(art => {
-        //   return art.article_id === article_id
-        //     ? res.data.article
-        //     : art
-        // }))
+        setArticles(articles.map(art => {
+          return art.article_id === article_id
+            ? res.data.article
+            : art
+        }))
         setMessage(res.data.message)
         setCurrentArticleId(null)
       })
       .catch(err=> {
-        console.log(err)
         setMessage(err.response.data.message)
       })
       .finally(() => {
