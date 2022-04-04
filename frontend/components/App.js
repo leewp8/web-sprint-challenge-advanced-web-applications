@@ -84,12 +84,11 @@ export default function App() {
     setSpinnerOn(true)
     axiosWithAuth().post(articlesUrl, article)
       .then(res => {
-        console.log(res)
         setArticles([...articles, res.data.article])
         setMessage(res.data.message)
       })
       .catch(err => {
-        console.log(err)
+        
         setMessage(err?.response?.data?.message)
       })
       .finally(() => {
@@ -105,11 +104,19 @@ export default function App() {
     setMessage('')
     setSpinnerOn(true)
     // const { article_id, ...changes } = article
-    axiosWithAuth().put(`${articlesUrl}/${article_id}`, changes)
+    axiosWithAuth().put(`${articlesUrl}/${article_id}`, article)
       .then(res => {
         console.log(res)
+        // setArticles(articles.map(art => {
+        //   return art.article_id === article_id
+        //     ? res.data.article
+        //     : art
+        // }))
+        setMessage(res.data.message)
+        setCurrentArticleId(null)
       })
       .catch(err=> {
+        console.log(err)
         setMessage(err.response.data.message)
       })
       .finally(() => {
@@ -120,6 +127,21 @@ export default function App() {
   }
 
   const deleteArticle = article_id => {
+    setMessage('')
+    setSpinnerOn(true)
+    axiosWithAuth().delete(`${articlesUrl}/${article_id}`)
+      .then(res => {
+        setMessage(res.data.message)
+        setArticles(articles.filter(art => {
+          return art.article_id !== article_id
+        }))
+      })
+      .catch(err => {
+        setMessage(err?.response?.data?.message)
+      })
+      .finally(() => {
+        setSpinnerOn(false)
+      })
     // ✨ implement
   }
 
@@ -143,7 +165,6 @@ export default function App() {
               postArticle={postArticle} 
               updateArticle={updateArticle} 
               setCurrentArticleId={setCurrentArticleId}
-              updateArticle={updateArticle}
               currentArticle={articles.find(art => art.article_id === currentArticleId)}
               />
               <Articles 
